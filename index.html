@@ -1,40 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>For Kendi, My Love 💙</title>
-    <style>
-        body {
-            background-color: #ffe6f0;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 100px;
-        }
-        button {
-            padding: 15px 25px;
-            font-size: 18px;
-            background-color: #ff4d6d;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #e60039;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Kendi, My Love 💙</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="hearts"></div>
 
-    <h1>Hey beautiful… 💕</h1>
-    <p>I have something important to ask you…</p>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <div class="brand">
+          <div class="kicker">a tiny surprise</div>
+          <h1>Hey love… can I ask you something? 💙</h1>
+          <p>Just one question. And then… a few memories I love the most.</p>
+        </div>
+      </div>
 
-    <button onclick="goNext()">Click Here</button>
+      <div class="split">
+        <div class="hero">
+          <div class="glow"></div>
+          <div class="big-emoji">💜</div>
+        </div>
 
-    <script>
-        function goNext() {
-            window.location.href = "valentine.html";
-        }
-    </script>
+        <div class="note">
+          <h2>Before you click…</h2>
+          <ul>
+            <li>Take a deep breath 😌</li>
+            <li>Smile a little (I know you will)</li>
+            <li>Then press “Continue”</li>
+          </ul>
 
+          <div class="actions">
+            <a class="btn btn-primary" href="valentine.html">Continue ✨</a>
+            <a class="btn btn-ghost" href="memories.html">Skip to Memories 📸</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
