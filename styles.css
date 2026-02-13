@@ -230,3 +230,58 @@ p{
   flex-wrap:wrap;
   justify-content:space-between;
 }
+
+/* Memory slideshow */
+.memory-stage{
+  height: min(70vh, 560px);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border:1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.06);
+  position: relative;
+}
+
+.memory-stage img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
+
+.memory-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 55%);
+  pointer-events:none;
+}
+
+.memory-caption{
+  position:absolute;
+  left:16px;
+  right:16px;
+  bottom:14px;
+  color: rgba(255,255,255,0.92);
+  font-size: 15px;
+  line-height: 1.45;
+  text-shadow: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+.memory-nav{
+  margin-top: 14px;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content: space-between;
+  align-items:center;
+}
+
+.memory-counter{
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.memory-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
