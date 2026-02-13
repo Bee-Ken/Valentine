@@ -300,3 +300,30 @@ p{
   0%, 100% { transform: scale(var(--yes-scale, 1)); }
   50%      { transform: scale(calc(var(--yes-scale, 1) * 1.06)); }
 }
+
+/* Toast */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0,0,0,0.65);
+  color: rgba(255,255,255,0.95);
+  border: 1px solid rgba(255,255,255,0.16);
+  padding: 12px 14px;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+  backdrop-filter: blur(10px);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+  max-width: min(520px, 92vw);
+  text-align: center;
+  font-size: 15px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
