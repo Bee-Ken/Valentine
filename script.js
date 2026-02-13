@@ -25,17 +25,31 @@ function addHeart(container) {
   setTimeout(() => heart.remove(), (dur + 0.2) * 1000);
 }
 
+function showToast(message, ms = 900) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.classList.add('show');
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, ms);
+}
+
 function setupYesClick() {
   const yesBtn = document.getElementById('yes');
   if (!yesBtn) return;
 
   yesBtn.addEventListener('click', (e) => {
-    // show message, then continue navigation
     e.preventDefault();
-    alert('Aaaaww 😊');
+
+    showToast('Aaaaww 😊', 850);
 
     const href = yesBtn.getAttribute('href') || 'memories.html';
-    window.location.href = href;
+    setTimeout(() => {
+      window.location.href = href;
+    }, 850);
   });
 }
 
