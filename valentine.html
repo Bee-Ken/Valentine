@@ -1,49 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Be My Valentine 💙</title>
-    <style>
-        body {
-            background-color: #fff0f5;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 100px;
-        }
-        button {
-            padding: 15px 25px;
-            font-size: 18px;
-            margin: 10px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-        }
-        #yes {
-            background-color: #9933ff;
-            color: white;
-        }
-        #no {
-            background-color: gray;
-            color: white;
-            position: absolute;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Be My Valentine 💙</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="hearts"></div>
 
-    <h1>Will you be my Valentine? 💖</h1>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <div class="brand">
+          <div class="kicker">the question</div>
+          <h1>Will you be my Valentine? 💙</h1>
+          <p>You already know what I’m hoping you’ll say 😄</p>
+        </div>
+      </div>
 
-    <button id="yes" onclick="alert('Best decision ever 💙')">Yes 💕</button>
-    <button id="no" onmouseover="moveButton()">No 😅</button>
+      <div class="actions">
+        <a class="btn btn-primary" href="memories.html">Yes 💙</a>
+        <button class="btn btn-ghost" id="no">No 😅</button>
+      </div>
 
-    <script>
-        function moveButton() {
-            const button = document.getElementById("no");
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight;
-            button.style.left = x + "px";
-            button.style.top = y + "px";
-        }
-    </script>
+      <p style="margin-top:18px; color: var(--muted);">
+        (If you press yes, I prepared a little gallery for you 📸)
+      </p>
+    </div>
+  </div>
 
+  <script src="script.js"></script>
 </body>
 </html>
