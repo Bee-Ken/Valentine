@@ -27,59 +27,45 @@ function addHeart(container) {
 
 function setupNoButton() {
   const noBtn = document.getElementById('no');
-  if (!noBtn) return;
+  const card = document.querySelector('.card');
+  if (!noBtn || !card) return;
 
-  // Make it move relative to the visible screen
-  noBtn.style.position = 'fixed';
+  noBtn.style.position = 'absolute';
   noBtn.style.zIndex = '9999';
 
-  const pad = 16; // how far from edges it must stay
+  const scale = 1.5; // 👈 this controls how far it can escape
+  const pad = 10;
 
   function move() {
-    // Use visualViewport when available (better on mobile)
-    const vv = window.visualViewport;
-    const vw = vv ? vv.width : window.innerWidth;
-    const vh = vv ? vv.height : window.innerHeight;
-    const ox = vv ? vv.offsetLeft : 0;
-    const oy = vv ? vv.offsetTop : 0;
+    const rect = card.getBoundingClientRect();
 
-    const maxX = Math.max(pad, vw - noBtn.offsetWidth - pad);
-    const maxY = Math.max(pad, vh - noBtn.offsetHeight - pad);
+    // Center of card
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
 
-    const x = ox + pad + Math.random() * (maxX - pad);
-    const y = oy + pad + Math.random() * (maxY - pad);
+    // Expanded movement zone
+    const zoneWidth = rect.width * scale;
+    const zoneHeight = rect.height * scale;
 
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
+    const minX = centerX - zoneWidth / 2;
+    const maxX = centerX + zoneWidth / 2 - noBtn.offsetWidth;
+    const minY = centerY - zoneHeight / 2;
+    const maxY = centerY + zoneHeight / 2 - noBtn.offsetHeight;
+
+    const x = minX + Math.random() * (maxX - minX);
+    const y = minY + Math.random() * (maxY - minY);
+
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
   }
 
-  // Start somewhere visible
-  noBtn.style.left = '60vw';
-  noBtn.style.top = '65vh';
+  // Starting position (relative to viewport)
+  const rect = card.getBoundingClientRect();
+  noBtn.style.left = rect.left + rect.width * 0.6 + 'px';
+  noBtn.style.top = rect.top + rect.height * 0.7 + 'px';
 
   noBtn.addEventListener('mouseover', move);
   noBtn.addEventListener('click', move);
-
-  // If screen resizes (rotation, address bar changes), keep it visible
-  window.addEventListener('resize', () => {
-    // Clamp current position back into bounds
-    const vv = window.visualViewport;
-    const vw = vv ? vv.width : window.innerWidth;
-    const vh = vv ? vv.height : window.innerHeight;
-    const ox = vv ? vv.offsetLeft : 0;
-    const oy = vv ? vv.offsetTop : 0;
-
-    const left = parseFloat(noBtn.style.left) || ox + vw * 0.6;
-    const top = parseFloat(noBtn.style.top) || oy + vh * 0.65;
-
-    const minX = ox + pad;
-    const minY = oy + pad;
-    const maxX = ox + vw - noBtn.offsetWidth - pad;
-    const maxY = oy + vh - noBtn.offsetHeight - pad;
-
-    noBtn.style.left = `${Math.min(Math.max(left, minX), maxX)}px`;
-    noBtn.style.top = `${Math.min(Math.max(top, minY), maxY)}px`;
-  });
 }
 
 function setupMemorySlideshow() {
