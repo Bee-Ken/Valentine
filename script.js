@@ -142,10 +142,19 @@ function setupNoButton() {
     growYes();
   }
 
-  // Start No near the Yes button so it’s visible
-  const yesRect = yesBtn.getBoundingClientRect();
-  noBtn.style.left = `${Math.min(window.innerWidth - noBtn.offsetWidth - edgePad, yesRect.left + 140)}px`;
-  noBtn.style.top = `${Math.min(window.innerHeight - noBtn.offsetHeight - edgePad, yesRect.top + 10)}px`;
+  // Start No positioned next to Yes (aligned nicely)
+  function positionNextToYes() {
+    const yesRect = yesBtn.getBoundingClientRect();
+
+    const startX = yesRect.right + 12; // 12px gap
+    const startY = yesRect.top;
+
+    noBtn.style.left = `${startX}px`;
+    noBtn.style.top = `${startY}px`;
+  }
+
+  // Wait a tiny moment to ensure layout is final
+  setTimeout(positionNextToYes, 50);
 
   // Dodge triggers
   noBtn.addEventListener('mouseover', moveNo);
