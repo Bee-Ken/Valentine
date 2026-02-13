@@ -49,17 +49,12 @@ function setupNoButton() {
   const noBtn = document.getElementById('no');
   const yesBtn = document.getElementById('yes');
   const card = document.querySelector('.card');
-
   if (!noBtn || !yesBtn || !card) return;
-
-  // Ensure the No button can move anywhere in viewport coordinates
-  noBtn.style.position = 'fixed';
-  noBtn.style.zIndex = '9999';
 
   // YES growth + pulse settings
   let yesScale = 1;
   const maxScale = 3.0;
-  const step = 0.20; // how fast it grows per "No" attempt
+  const step = 0.20;
 
   // No text progression
   const noTexts = [
@@ -81,32 +76,45 @@ function setupNoButton() {
     if (yesScale < maxScale) {
       yesScale = Math.min(maxScale, yesScale + step);
 
-      // Use CSS var so pulse animation respects the final size
+      // Set CSS variable for pulse to use
       yesBtn.style.setProperty('--yes-scale', yesScale.toString());
 
-      // If we haven't started pulsing yet, still apply scale directly
-      // (otherwise pulse animation will handle it)
       if (!yesBtn.classList.contains('pulse')) {
         yesBtn.style.transform = `scale(${yesScale})`;
       }
 
       if (yesScale >= maxScale) {
-        // Lock at max and pulse around it
         yesBtn.classList.add('pulse');
-        // Set base scale for animation
         yesBtn.style.setProperty('--yes-scale', maxScale.toString());
       }
     }
   }
 
-  // Move zone: 1.5× card area, but ALSO clamped to visible viewport
-  const zoneScale = 1.5;
-  const edgePad = 10; // keep fully visible
+  // Movement bounds
+  const zoneScale = 1.5; // <- your rule
+  const edgePad = 10;
+
+  // Phase switch: starts normal, becomes "runner" only after interaction
+  let activeRunner = false;
+
+  function activateRunnerAtCurrentSpot() {
+    if (activeRunner) return;
+
+    // Capture current on-screen position BEFORE taking it out of layout
+    const r = noBtn.getBoundingClientRect();
+
+    activeRunner = true;
+    noBtn.style.position = 'fixed';
+    noBtn.style.zIndex = '9999';
+    noBtn.style.left = `${r.left}px`;
+    noBtn.style.top = `${r.top}px`;
+  }
 
   function moveNo() {
-    const rect = card.getBoundingClientRect(); // viewport coords
+    // Ensure it starts as a normal button, then becomes runner on first attempt
+    activateRunnerAtCurrentSpot();
 
-    // Build the 1.5x zone around the card's center (viewport coords)
+    const rect = card.getBoundingClientRect(); // viewport coords
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -118,7 +126,7 @@ function setupNoButton() {
     let minY = centerY - zoneH / 2;
     let maxY = centerY + zoneH / 2 - noBtn.offsetHeight;
 
-    // Clamp that zone to the visible viewport so it can’t disappear
+    // Clamp the entire allowed zone to the visible viewport
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
@@ -127,7 +135,6 @@ function setupNoButton() {
     maxX = Math.min(maxX, vw - noBtn.offsetWidth - edgePad);
     maxY = Math.min(maxY, vh - noBtn.offsetHeight - edgePad);
 
-    // If something is tiny or weird, prevent NaN
     if (maxX <= minX) maxX = minX + 1;
     if (maxY <= minY) maxY = minY + 1;
 
@@ -137,61 +144,27 @@ function setupNoButton() {
     noBtn.style.left = `${x}px`;
     noBtn.style.top = `${y}px`;
 
-    // UX effects on every dodge
     updateNoText();
     growYes();
   }
 
-  // Start No positioned next to Yes (aligned nicely)
-  function positionNextToYes() {
-    const yesRect = yesBtn.getBoundingClientRect();
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-  
-    const gap = 12;
-  
-    // Prefer right of Yes
-    let startX = yesRect.right + gap;
-    let startY = yesRect.top;
-  
-    // If not enough space to the right, place below Yes
-    const fitsRight = (startX + noBtn.offsetWidth + edgePad) <= vw;
-    if (!fitsRight) {
-      startX = yesRect.left;
-      startY = yesRect.bottom + 10;
-    }
-  
-    // Clamp to viewport
-    startX = Math.min(startX, vw - noBtn.offsetWidth - edgePad);
-    startX = Math.max(startX, edgePad);
-  
-    startY = Math.min(startY, vh - noBtn.offsetHeight - edgePad);
-    startY = Math.max(startY, edgePad);
-  
-    noBtn.style.left = `${startX}px`;
-    noBtn.style.top = `${startY}px`;
-  }
-  
-  let armed = false;
-  
-  // Wait for layout, then position, then "arm" the dodge
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      positionNextToYes();
-  
-      // Arm after it is placed so it doesn't instantly dodge on load
-      setTimeout(() => { armed = true; }, 200);
-    });
-  });
-  
-  // Dodge triggers (only after armed)
-  noBtn.addEventListener('mouseover', () => { if (armed) moveNo(); });
-  noBtn.addEventListener('click', () => { if (armed) moveNo(); });
-  
-  // Keep No visible on resize
+  // Triggers (this keeps it normal until she tries it)
+  noBtn.addEventListener('mouseover', moveNo);
+  noBtn.addEventListener('click', moveNo);
+
+  // If the viewport changes after it's active, keep it visible (not required, but safe)
   window.addEventListener('resize', () => {
-    positionNextToYes();
-});
+    if (!activeRunner) return;
+
+    const left = parseFloat(noBtn.style.left) || edgePad;
+    const top = parseFloat(noBtn.style.top) || edgePad;
+
+    const maxLeft = window.innerWidth - noBtn.offsetWidth - edgePad;
+    const maxTop = window.innerHeight - noBtn.offsetHeight - edgePad;
+
+    noBtn.style.left = `${Math.min(Math.max(left, edgePad), maxLeft)}px`;
+    noBtn.style.top = `${Math.min(Math.max(top, edgePad), maxTop)}px`;
+  });
 }
 
 function setupMemorySlideshow() {
