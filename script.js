@@ -145,29 +145,38 @@ function setupNoButton() {
   // Start No positioned next to Yes (aligned nicely)
   function positionNextToYes() {
     const yesRect = yesBtn.getBoundingClientRect();
-
-    // Desired start: to the right of Yes
-    let startX = yesRect.right + 12;
-    let startY = yesRect.top;
-
-    // Clamp to viewport so it never starts off-screen
     const vw = window.innerWidth;
     const vh = window.innerHeight;
 
+    const gap = 12;
+  
+    // Try right of Yes
+    let startX = yesRect.right + gap;
+    let startY = yesRect.top;
+  
+    const fitsRight = (startX + noBtn.offsetWidth + edgePad) <= vw;
+  
+    // If it can't fit on the right, put it below the Yes button
+    if (!fitsRight) {
+      startX = yesRect.left;
+      startY = yesRect.bottom + 10;
+    }
+  
+    // Clamp to viewport (still required)
     startX = Math.min(startX, vw - noBtn.offsetWidth - edgePad);
     startX = Math.max(startX, edgePad);
-
+  
     startY = Math.min(startY, vh - noBtn.offsetHeight - edgePad);
     startY = Math.max(startY, edgePad);
-
+  
     noBtn.style.left = `${startX}px`;
     noBtn.style.top = `${startY}px`;
-  }
+}
 
   // Wait a tiny moment to ensure layout is final
   requestAnimationFrame(() => {
   requestAnimationFrame(positionNextToYes);
-  });
+});
 
   // Dodge triggers
   noBtn.addEventListener('mouseover', moveNo);
