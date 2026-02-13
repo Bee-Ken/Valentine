@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory 3 ✨</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="hearts"></div>
 
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <div class="brand">
+          <div class="kicker">memory 3</div>
+          <h1 id="memoryTitle">Memory 3</h1>
+          <p>Use Next / Previous (or arrow keys).</p>
+        </div>
+      </div>
+
+      <div class="memory-stage">
+        <img id="stageImg" src="" alt="Memory photo">
+        <div class="memory-overlay"></div>
+        <div class="memory-caption" id="memoryCaption"></div>
+      </div>
+
+      <div class="memory-nav">
+        <div class="memory-row">
+          <button class="btn btn-ghost" id="prevPhoto">← Previous Photo</button>
+          <button class="btn btn-primary" id="nextPhoto">Next Photo →</button>
+        </div>
+
+        <div class="memory-counter" id="memoryCounter"></div>
+
+        <!-- Only shows on the LAST photo -->
+        <div class="memory-row">
+          <a class="btn btn-ghost" id="prevMemory" href="memory2.html" style="display:none;">← Previous Memory</a>
+          <a class="btn btn-ghost" id="homeLink" href="index.html" style="display:none;">Home 🏠</a>
+          <a class="btn btn-primary" id="nextMemory" href="memories.html" style="display:none;">Back to Memories →</a>
+        </div>
+      </div>
+
+      <div class="footer-actions">
+        <a class="btn btn-ghost" href="memories.html">Back to Memories 📸</a>
+        <a class="btn btn-ghost" href="valentine.html">Valentine Page 💙</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.MEMORY = {
+      title: "Memory 3",
+      photos: [
+        { src: "images/m3_1.jpeg", caption: "", alt: "Memory 3 photo 1" },
+        { src: "images/m3_2.jpeg", caption: "", alt: "Memory 3 photo 2" },
+        { src: "images/m3_3.jpg",  caption: "", alt: "Memory 3 photo 3" },
+        { src: "images/m3_4.jpg",  caption: "", alt: "Memory 3 photo 4" },
+        { src: "images/m3_5.jpg",  caption: "", alt: "Memory 3 photo 5" }
+      ]
+    };
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
