@@ -2,10 +2,7 @@ function spawnHearts() {
   const container = document.querySelector('.hearts');
   if (!container) return;
 
-  // Make a few hearts at load
   for (let i = 0; i < 18; i++) addHeart(container);
-
-  // Keep them coming slowly
   setInterval(() => addHeart(container), 900);
 }
 
@@ -13,7 +10,7 @@ function addHeart(container) {
   const heart = document.createElement('div');
   heart.className = 'heart';
 
-  const emojis = ['💙','💜','✨','💖','💫'];
+  const emojis = ['💙', '💜', '✨', '💖', '💫'];
   heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
 
   const left = Math.random() * 100; // vw
@@ -25,8 +22,6 @@ function addHeart(container) {
   heart.style.fontSize = size + 'px';
 
   container.appendChild(heart);
-
-  // Remove after animation
   setTimeout(() => heart.remove(), (dur + 0.2) * 1000);
 }
 
@@ -46,19 +41,16 @@ function setupNoButton() {
     noBtn.style.top = y + 'px';
   };
 
-  // Start somewhere sensible
+  // Make sure absolute positioning can work
   noBtn.style.position = 'absolute';
+
+  // Start position (then it will run away)
   noBtn.style.left = '55%';
   noBtn.style.top = '65%';
 
   noBtn.addEventListener('mouseover', move);
   noBtn.addEventListener('click', move);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  spawnHearts();
-  setupNoButton();
-});
 
 function setupMemorySlideshow() {
   const stageImg = document.getElementById('stageImg');
@@ -75,7 +67,6 @@ function setupMemorySlideshow() {
   const nextMemoryLink = document.getElementById('nextMemory');
   const homeLink = document.getElementById('homeLink');
 
-  // Data is embedded per-page in window.MEMORY (see memory1.html template below)
   const mem = window.MEMORY;
   if (!mem || !mem.photos || mem.photos.length === 0) return;
 
@@ -89,28 +80,42 @@ function setupMemorySlideshow() {
     if (captionEl) captionEl.textContent = mem.photos[i].caption || '';
     if (counterEl) counterEl.textContent = `Photo ${i + 1} of ${mem.photos.length}`;
 
-    // Buttons enabled/disabled
     if (prevPhotoBtn) prevPhotoBtn.disabled = (i === 0);
     if (nextPhotoBtn) nextPhotoBtn.disabled = (i === mem.photos.length - 1);
 
-    // On last photo, show memory navigation (you asked for this)
     const isLast = (i === mem.photos.length - 1);
     if (prevMemoryLink) prevMemoryLink.style.display = isLast ? 'inline-flex' : 'none';
     if (nextMemoryLink) nextMemoryLink.style.display = isLast ? 'inline-flex' : 'none';
     if (homeLink) homeLink.style.display = isLast ? 'inline-flex' : 'none';
   }
 
-  function prev() { if (i > 0) { i--; render(); } }
-  function next() { if (i < mem.photos.length - 1) { i++; render(); } }
+  function prev() {
+    if (i > 0) {
+      i--;
+      render();
+    }
+  }
+
+  function next() {
+    if (i < mem.photos.length - 1) {
+      i++;
+      render();
+    }
+  }
 
   if (prevPhotoBtn) prevPhotoBtn.addEventListener('click', prev);
   if (nextPhotoBtn) nextPhotoBtn.addEventListener('click', next);
 
-  // Keyboard navigation (nice on laptop)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft') prev();
     if (e.key === 'ArrowRight') next();
   });
 
   render();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  spawnHearts();
+  setupNoButton();
+  setupMemorySlideshow();
 });
