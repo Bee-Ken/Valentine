@@ -165,7 +165,9 @@ function setupNoButton() {
   }
 
   // Wait a tiny moment to ensure layout is final
-  setTimeout(positionNextToYes, 50);
+  requestAnimationFrame(() => {
+  requestAnimationFrame(positionNextToYes);
+  });
 
   // Dodge triggers
   noBtn.addEventListener('mouseover', moveNo);
