@@ -146,8 +146,19 @@ function setupNoButton() {
   function positionNextToYes() {
     const yesRect = yesBtn.getBoundingClientRect();
 
-    const startX = yesRect.right + 12; // 12px gap
-    const startY = yesRect.top;
+    // Desired start: to the right of Yes
+    let startX = yesRect.right + 12;
+    let startY = yesRect.top;
+
+    // Clamp to viewport so it never starts off-screen
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    startX = Math.min(startX, vw - noBtn.offsetWidth - edgePad);
+    startX = Math.max(startX, edgePad);
+
+    startY = Math.min(startY, vh - noBtn.offsetHeight - edgePad);
+    startY = Math.max(startY, edgePad);
 
     noBtn.style.left = `${startX}px`;
     noBtn.style.top = `${startY}px`;
