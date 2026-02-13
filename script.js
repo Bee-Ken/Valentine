@@ -27,51 +27,121 @@ function addHeart(container) {
 
 function setupNoButton() {
   const noBtn = document.getElementById('no');
-  const yesBtn = document.querySelector('.btn-primary');
+  const yesBtn = document.getElementById('yes');
   const card = document.querySelector('.card');
 
   if (!noBtn || !yesBtn || !card) return;
 
-  noBtn.style.position = 'absolute';
+  // Ensure the No button can move anywhere in viewport coordinates
+  noBtn.style.position = 'fixed';
   noBtn.style.zIndex = '9999';
 
-  const scaleZone = 1.5;
+  // YES growth + pulse settings
   let yesScale = 1;
-  const maxScale = 1.8; // 👈 LIMIT (adjust if you want)
+  const maxScale = 3.0;
+  const step = 0.20; // how fast it grows per "No" attempt
 
-  function move() {
-    const rect = card.getBoundingClientRect();
+  // No text progression
+  const noTexts = [
+    'No 😅',
+    'Really?',
+    'Aki Baabe',
+    'Woiye please?',
+    'With a cherry on top?',
+    'Pleeeeeease?'
+  ];
+  let noIndex = 0;
 
+  function updateNoText() {
+    if (noIndex < noTexts.length - 1) noIndex++;
+    noBtn.textContent = noTexts[noIndex];
+  }
+
+  function growYes() {
+    if (yesScale < maxScale) {
+      yesScale = Math.min(maxScale, yesScale + step);
+
+      // Use CSS var so pulse animation respects the final size
+      yesBtn.style.setProperty('--yes-scale', yesScale.toString());
+
+      // If we haven't started pulsing yet, still apply scale directly
+      // (otherwise pulse animation will handle it)
+      if (!yesBtn.classList.contains('pulse')) {
+        yesBtn.style.transform = `scale(${yesScale})`;
+      }
+
+      if (yesScale >= maxScale) {
+        // Lock at max and pulse around it
+        yesBtn.classList.add('pulse');
+        // Set base scale for animation
+        yesBtn.style.setProperty('--yes-scale', maxScale.toString());
+      }
+    }
+  }
+
+  // Move zone: 1.5× card area, but ALSO clamped to visible viewport
+  const zoneScale = 1.5;
+  const edgePad = 10; // keep fully visible
+
+  function moveNo() {
+    const rect = card.getBoundingClientRect(); // viewport coords
+
+    // Build the 1.5x zone around the card's center (viewport coords)
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    const zoneWidth = rect.width * scaleZone;
-    const zoneHeight = rect.height * scaleZone;
+    const zoneW = rect.width * zoneScale;
+    const zoneH = rect.height * zoneScale;
 
-    const minX = centerX - zoneWidth / 2;
-    const maxX = centerX + zoneWidth / 2 - noBtn.offsetWidth;
-    const minY = centerY - zoneHeight / 2;
-    const maxY = centerY + zoneHeight / 2 - noBtn.offsetHeight;
+    let minX = centerX - zoneW / 2;
+    let maxX = centerX + zoneW / 2 - noBtn.offsetWidth;
+    let minY = centerY - zoneH / 2;
+    let maxY = centerY + zoneH / 2 - noBtn.offsetHeight;
+
+    // Clamp that zone to the visible viewport so it can’t disappear
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    minX = Math.max(minX, edgePad);
+    minY = Math.max(minY, edgePad);
+    maxX = Math.min(maxX, vw - noBtn.offsetWidth - edgePad);
+    maxY = Math.min(maxY, vh - noBtn.offsetHeight - edgePad);
+
+    // If something is tiny or weird, prevent NaN
+    if (maxX <= minX) maxX = minX + 1;
+    if (maxY <= minY) maxY = minY + 1;
 
     const x = minX + Math.random() * (maxX - minX);
     const y = minY + Math.random() * (maxY - minY);
 
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
 
-    // 👇 Grow Yes button
-    if (yesScale < maxScale) {
-      yesScale += 0.08;
-      yesBtn.style.transform = `scale(${yesScale})`;
-    }
+    // UX effects on every dodge
+    updateNoText();
+    growYes();
   }
 
-  const rect = card.getBoundingClientRect();
-  noBtn.style.left = rect.left + rect.width * 0.6 + 'px';
-  noBtn.style.top = rect.top + rect.height * 0.7 + 'px';
+  // Start No near the Yes button so it’s visible
+  const yesRect = yesBtn.getBoundingClientRect();
+  noBtn.style.left = `${Math.min(window.innerWidth - noBtn.offsetWidth - edgePad, yesRect.left + 140)}px`;
+  noBtn.style.top = `${Math.min(window.innerHeight - noBtn.offsetHeight - edgePad, yesRect.top + 10)}px`;
 
-  noBtn.addEventListener('mouseover', move);
-  noBtn.addEventListener('click', move);
+  // Dodge triggers
+  noBtn.addEventListener('mouseover', moveNo);
+  noBtn.addEventListener('click', moveNo);
+
+  // Keep No visible on resize (rotation / address bar / etc.)
+  window.addEventListener('resize', () => {
+    const left = parseFloat(noBtn.style.left) || edgePad;
+    const top = parseFloat(noBtn.style.top) || edgePad;
+
+    const maxLeft = window.innerWidth - noBtn.offsetWidth - edgePad;
+    const maxTop = window.innerHeight - noBtn.offsetHeight - edgePad;
+
+    noBtn.style.left = `${Math.min(Math.max(left, edgePad), maxLeft)}px`;
+    noBtn.style.top = `${Math.min(Math.max(top, edgePad), maxTop)}px`;
+  });
 }
 
 function setupMemorySlideshow() {
