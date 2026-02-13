@@ -25,6 +25,20 @@ function addHeart(container) {
   setTimeout(() => heart.remove(), (dur + 0.2) * 1000);
 }
 
+function setupYesClick() {
+  const yesBtn = document.getElementById('yes');
+  if (!yesBtn) return;
+
+  yesBtn.addEventListener('click', (e) => {
+    // show message, then continue navigation
+    e.preventDefault();
+    alert('Aaaaww 😊');
+
+    const href = yesBtn.getAttribute('href') || 'memories.html';
+    window.location.href = href;
+  });
+}
+
 function setupNoButton() {
   const noBtn = document.getElementById('no');
   const yesBtn = document.getElementById('yes');
@@ -208,6 +222,7 @@ function setupMemorySlideshow() {
 
 document.addEventListener('DOMContentLoaded', () => {
   spawnHearts();
+  setupYesClick();
   setupNoButton();
   setupMemorySlideshow();
 });
