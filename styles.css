@@ -290,3 +290,13 @@ p{
   gap:12px;
   flex-wrap:wrap;
 }
+
+/* Yes button pulse after max size */
+.pulse {
+  animation: pulseGlow 0.9s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(var(--yes-scale, 1)); }
+  50%      { transform: scale(calc(var(--yes-scale, 1) * 1.06)); }
+}
