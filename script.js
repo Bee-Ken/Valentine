@@ -27,25 +27,26 @@ function addHeart(container) {
 
 function setupNoButton() {
   const noBtn = document.getElementById('no');
+  const yesBtn = document.querySelector('.btn-primary');
   const card = document.querySelector('.card');
-  if (!noBtn || !card) return;
+
+  if (!noBtn || !yesBtn || !card) return;
 
   noBtn.style.position = 'absolute';
   noBtn.style.zIndex = '9999';
 
-  const scale = 1.5; // 👈 this controls how far it can escape
-  const pad = 10;
+  const scaleZone = 1.5;
+  let yesScale = 1;
+  const maxScale = 1.8; // 👈 LIMIT (adjust if you want)
 
   function move() {
     const rect = card.getBoundingClientRect();
 
-    // Center of card
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    // Expanded movement zone
-    const zoneWidth = rect.width * scale;
-    const zoneHeight = rect.height * scale;
+    const zoneWidth = rect.width * scaleZone;
+    const zoneHeight = rect.height * scaleZone;
 
     const minX = centerX - zoneWidth / 2;
     const maxX = centerX + zoneWidth / 2 - noBtn.offsetWidth;
@@ -57,9 +58,14 @@ function setupNoButton() {
 
     noBtn.style.left = x + 'px';
     noBtn.style.top = y + 'px';
+
+    // 👇 Grow Yes button
+    if (yesScale < maxScale) {
+      yesScale += 0.08;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
   }
 
-  // Starting position (relative to viewport)
   const rect = card.getBoundingClientRect();
   noBtn.style.left = rect.left + rect.width * 0.6 + 'px';
   noBtn.style.top = rect.top + rect.height * 0.7 + 'px';
