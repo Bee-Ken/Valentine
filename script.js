@@ -147,22 +147,21 @@ function setupNoButton() {
     const yesRect = yesBtn.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-
+  
     const gap = 12;
   
-    // Try right of Yes
+    // Prefer right of Yes
     let startX = yesRect.right + gap;
     let startY = yesRect.top;
   
+    // If not enough space to the right, place below Yes
     const fitsRight = (startX + noBtn.offsetWidth + edgePad) <= vw;
-  
-    // If it can't fit on the right, put it below the Yes button
     if (!fitsRight) {
       startX = yesRect.left;
       startY = yesRect.bottom + 10;
     }
   
-    // Clamp to viewport (still required)
+    // Clamp to viewport
     startX = Math.min(startX, vw - noBtn.offsetWidth - edgePad);
     startX = Math.max(startX, edgePad);
   
@@ -171,28 +170,28 @@ function setupNoButton() {
   
     noBtn.style.left = `${startX}px`;
     noBtn.style.top = `${startY}px`;
-}
-
-  // Wait a tiny moment to ensure layout is final
+  }
+  
+  let armed = false;
+  
+  // Wait for layout, then position, then "arm" the dodge
   requestAnimationFrame(() => {
-  requestAnimationFrame(positionNextToYes);
-});
-
-  // Dodge triggers
-  noBtn.addEventListener('mouseover', moveNo);
-  noBtn.addEventListener('click', moveNo);
-
-  // Keep No visible on resize (rotation / address bar / etc.)
-  window.addEventListener('resize', () => {
-    const left = parseFloat(noBtn.style.left) || edgePad;
-    const top = parseFloat(noBtn.style.top) || edgePad;
-
-    const maxLeft = window.innerWidth - noBtn.offsetWidth - edgePad;
-    const maxTop = window.innerHeight - noBtn.offsetHeight - edgePad;
-
-    noBtn.style.left = `${Math.min(Math.max(left, edgePad), maxLeft)}px`;
-    noBtn.style.top = `${Math.min(Math.max(top, edgePad), maxTop)}px`;
+    requestAnimationFrame(() => {
+      positionNextToYes();
+  
+      // Arm after it is placed so it doesn't instantly dodge on load
+      setTimeout(() => { armed = true; }, 200);
+    });
   });
+  
+  // Dodge triggers (only after armed)
+  noBtn.addEventListener('mouseover', () => { if (armed) moveNo(); });
+  noBtn.addEventListener('click', () => { if (armed) moveNo(); });
+  
+  // Keep No visible on resize
+  window.addEventListener('resize', () => {
+    positionNextToYes();
+});
 }
 
 function setupMemorySlideshow() {
