@@ -39,17 +39,21 @@ function showToast(message, ms = 900) {
 
 function setupYesClick() {
   const yesBtn = document.getElementById('yes');
-  if (!yesBtn) return;
+  const overlay = document.getElementById('celebrate');
+  if (!yesBtn || !overlay) return;
 
   yesBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
-    showToast('Aaaaww 😊', 850);
+    // Grow Yes slightly for dramatic effect
+    yesBtn.style.transform = 'scale(3.2)';
 
-    const href = yesBtn.getAttribute('href') || 'memories.html';
+    overlay.classList.add('show');
+
     setTimeout(() => {
+      const href = yesBtn.getAttribute('href') || 'memories.html';
       window.location.href = href;
-    }, 850);
+    }, 1300);
   });
 }
 
