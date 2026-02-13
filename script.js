@@ -29,27 +29,57 @@ function setupNoButton() {
   const noBtn = document.getElementById('no');
   if (!noBtn) return;
 
-  const move = () => {
-    const pad = 18;
-    const maxX = window.innerWidth - noBtn.offsetWidth - pad;
-    const maxY = window.innerHeight - noBtn.offsetHeight - pad;
+  // Make it move relative to the visible screen
+  noBtn.style.position = 'fixed';
+  noBtn.style.zIndex = '9999';
 
-    const x = pad + Math.random() * Math.max(1, maxX - pad);
-    const y = pad + Math.random() * Math.max(1, maxY - pad);
+  const pad = 16; // how far from edges it must stay
 
-    noBtn.style.left = x + 'px';
-    noBtn.style.top = y + 'px';
-  };
+  function move() {
+    // Use visualViewport when available (better on mobile)
+    const vv = window.visualViewport;
+    const vw = vv ? vv.width : window.innerWidth;
+    const vh = vv ? vv.height : window.innerHeight;
+    const ox = vv ? vv.offsetLeft : 0;
+    const oy = vv ? vv.offsetTop : 0;
 
-  // Make sure absolute positioning can work
-  noBtn.style.position = 'absolute';
+    const maxX = Math.max(pad, vw - noBtn.offsetWidth - pad);
+    const maxY = Math.max(pad, vh - noBtn.offsetHeight - pad);
 
-  // Start position (then it will run away)
-  noBtn.style.left = '55%';
-  noBtn.style.top = '65%';
+    const x = ox + pad + Math.random() * (maxX - pad);
+    const y = oy + pad + Math.random() * (maxY - pad);
+
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+  }
+
+  // Start somewhere visible
+  noBtn.style.left = '60vw';
+  noBtn.style.top = '65vh';
 
   noBtn.addEventListener('mouseover', move);
   noBtn.addEventListener('click', move);
+
+  // If screen resizes (rotation, address bar changes), keep it visible
+  window.addEventListener('resize', () => {
+    // Clamp current position back into bounds
+    const vv = window.visualViewport;
+    const vw = vv ? vv.width : window.innerWidth;
+    const vh = vv ? vv.height : window.innerHeight;
+    const ox = vv ? vv.offsetLeft : 0;
+    const oy = vv ? vv.offsetTop : 0;
+
+    const left = parseFloat(noBtn.style.left) || ox + vw * 0.6;
+    const top = parseFloat(noBtn.style.top) || oy + vh * 0.65;
+
+    const minX = ox + pad;
+    const minY = oy + pad;
+    const maxX = ox + vw - noBtn.offsetWidth - pad;
+    const maxY = oy + vh - noBtn.offsetHeight - pad;
+
+    noBtn.style.left = `${Math.min(Math.max(left, minX), maxX)}px`;
+    noBtn.style.top = `${Math.min(Math.max(top, minY), maxY)}px`;
+  });
 }
 
 function setupMemorySlideshow() {
