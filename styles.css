@@ -176,6 +176,21 @@ p{
   border-radius: 20px;
 }
 
+/* Intro page background image */
+.intro-page{
+  background: url("images/intro-bg.jpeg") center / cover no-repeat fixed;
+  position: relative;
+}
+
+/* Dark overlay for readability */
+.intro-page::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: rgba(10,0,20,0.55);
+  pointer-events: none;
+}
+
 .note{
   padding:16px;
   border-radius: 18px;
