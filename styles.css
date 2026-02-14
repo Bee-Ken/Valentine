@@ -377,7 +377,6 @@ p{
 
 /* Overlay controls on top of full-screen image */
 .memory-nav{
-  position: fixed;
   left: 16px;
   right: 16px;
   bottom: 16px;
@@ -387,6 +386,42 @@ p{
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Side arrows for memory slideshow */
+.memory-page #prevPhoto,
+.memory-page #nextPhoto{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  padding: 14px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+}
+
+/* Left / right placement */
+.memory-page #prevPhoto{
+  left: 14px;
+}
+
+.memory-page #nextPhoto{
+  right: 14px;
+}
+
+/* Keep them subtle */
+.memory-page #prevPhoto.btn-ghost,
+.memory-page #nextPhoto.btn-primary{
+  opacity: 0.9;
+}
+
+/* Ensure caption isn't covered by bottom row anymore */
+.memory-page .memory-caption{
+  bottom: 18px;
+  left: 16px;
+  right: 16px;
+  padding-right: 70px;  /* avoids overlap with right arrow */
+  padding-left: 70px;   /* avoids overlap with left arrow */
 }
 
 .memory-counter{
