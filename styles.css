@@ -357,7 +357,7 @@ p{
 
 /* Full-window memory slideshow */
 .memory-stage{
-  width: 100vw;
+  height: calc(100vh - 160px);
   height: 100vh;
   position: relative;
   overflow: hidden;
