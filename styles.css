@@ -199,6 +199,38 @@ p{
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 }
 
+/* ===========================
+   VALENTINE PAGE BACKGROUND
+=========================== */
+.valentine-page{
+  background: url("images/valentine-bg.jpeg") center / cover no-repeat fixed;
+  position: relative;
+}
+
+.valentine-page::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  pointer-events: none;
+}
+
+/* ===========================
+   MEMORIES HOME BACKGROUND
+=========================== */
+.memories-page{
+  background: url("images/memories-bg.jpeg") center / cover no-repeat fixed;
+  position: relative;
+}
+
+.memories-page::before{
+  content:"";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  pointer-events: none;
+}
+
 .note{
   padding:16px;
   border-radius: 18px;
