@@ -192,7 +192,7 @@ function setupMemorySlideshow() {
     stageImg.alt = mem.photos[i].alt || mem.title || 'Memory photo';
 
     if (titleEl) titleEl.textContent = mem.title || 'Memory';
-    if (captionEl) captionEl.textContent = mem.photos[i].caption || '';
+    if (captionEl) captionEl.innerHTML = mem.photos[i].caption || '';
     if (counterEl) counterEl.textContent = `Photo ${i + 1} of ${mem.photos.length}`;
 
     if (prevPhotoBtn) prevPhotoBtn.disabled = (i === 0);
