@@ -171,9 +171,9 @@ p{
 
 .big-emoji img{
   width: 80%;
-  height: 10%;
+  height: 20%;
   object-fit: contain;   /* shows full image */
-  border-radius: 25px;
+  border-radius: 20px;
 }
 
 .note{
