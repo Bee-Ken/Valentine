@@ -212,20 +212,8 @@ p{
 =========================== */
 
 .memories-page{
-  background:
-    linear-gradient(180deg, #140b1f, #1b1230),
-    url("images/memories-bg.jpeg") center / 90% auto no-repeat fixed;
-  position: relative;
-}
-
-/* Keep overlay (adjust opacity if needed) */
-.memories-page::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.12); /* MUCH lighter */
-  pointer-events: none;
-  z-index: 0;                  /* behind content */
+  background: url("images/memories-bg.jpeg") no-repeat center center fixed;
+  background-size: cover;
 }
 
 /* Valentine: almost no blur */
