@@ -316,6 +316,11 @@ p{
   padding: 0;
 }
 
+/* On full-screen memory pages, hide the extra footer so controls don't overlap */
+.memory-page .footer-actions{
+  display: none !important;
+}
+
 /* Yes button pulse after max size */
 .pulse {
   animation: pulseGlow 0.9s ease-in-out infinite;
