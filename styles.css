@@ -216,6 +216,20 @@ p{
     linear-gradient(180deg, #140b1f, #1b1230);
 }
 
+/* Valentine: almost no blur */
+.valentine-page .card{
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+/* Memories: keep your original blur */
+.memories-page .card{
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
 .note{
   padding:16px;
   border-radius: 18px;
