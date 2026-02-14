@@ -212,7 +212,9 @@ p{
 =========================== */
 
 .memories-page{
-  background: url("images/memories-bg.jpeg") center top / 90% auto no-repeat fixed;
+  background:
+    linear-gradient(180deg, #140b1f, #1b1230),
+    url("images/memories-bg.jpeg") center / 90% auto no-repeat fixed;
   position: relative;
 }
 
