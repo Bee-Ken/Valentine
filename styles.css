@@ -178,7 +178,7 @@ p{
 
 /* Intro page background image */
 .intro-page{
-  background: url("images/intro-bg.jpeg") center / cover no-repeat fixed;
+  background: url("images/intro-bg.jpg") center / cover no-repeat fixed;
   position: relative;
 }
 
