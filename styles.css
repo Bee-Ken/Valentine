@@ -235,6 +235,22 @@ p{
   z-index: 1;
 }
 
+/* Compact header for slideshow pages */
+.memory-page .header{
+  padding: 10px 20px;
+}
+
+.memory-page .header h1{
+  font-size: 1.6rem;
+  margin: 6px 0;
+}
+
+.memory-page .header p{
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
 .love-caption{
   color: #ff69b4;
 }
