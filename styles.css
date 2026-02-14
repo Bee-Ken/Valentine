@@ -171,7 +171,7 @@ p{
 
 .big-emoji img{
   width: 80%;
-  height: 20%;
+  height: 80%;
   object-fit: contain;   /* shows full image */
   border-radius: 20px;
 }
