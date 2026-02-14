@@ -14,6 +14,7 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
+
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -58,17 +59,20 @@ body{
   flex-direction:column;
   gap:6px;
 }
+
 .kicker{
   font-size:14px;
   letter-spacing:0.18em;
   text-transform:uppercase;
   color:var(--muted);
 }
+
 h1{
   margin:0;
   font-size: clamp(28px, 3.2vw, 44px);
   line-height:1.1;
 }
+
 p{
   margin:10px 0 0;
   color:var(--muted);
@@ -97,7 +101,7 @@ p{
   padding: 12px 16px;
   font-size:16px;
   cursor:pointer;
-  transition: 
+  transition:
     transform .15s ease,
     filter .15s ease,
     box-shadow .15s ease,
@@ -115,11 +119,13 @@ p{
   color:#0b0720;
   box-shadow: 0 12px 35px rgba(122,162,255,0.24);
 }
+
 .btn-ghost{
   background: rgba(255,255,255,0.10);
   color:var(--text);
   border:1px solid rgba(255,255,255,0.18);
 }
+
 .btn:hover{ transform: translateY(-2px); filter: brightness(1.03); }
 .btn:active{ transform: translateY(0px); filter: brightness(0.98); }
 
@@ -172,7 +178,7 @@ p{
 .big-emoji img{
   width: 80%;
   height: 80%;
-  object-fit: contain;   /* shows full image */
+  object-fit: contain;
   border-radius: 20px;
 }
 
@@ -193,7 +199,7 @@ p{
 
 /* Transparent intro card */
 .intro-page .card{
-  background: rgba(255,255,255,0.08);  /* very transparent */
+  background: rgba(255,255,255,0.08);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255,255,255,0.07);
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
@@ -210,7 +216,6 @@ p{
 /* ===========================
    MEMORIES HOME BACKGROUND
 =========================== */
-
 .memories-page{
   background: url("images/memories-bg.jpeg") no-repeat center center fixed;
   background-size: cover;
@@ -223,7 +228,7 @@ p{
   border: 1px solid rgba(255,255,255,0.16);
 }
 
-/* Memories: keep your original blur */
+/* Memories: keep blur */
 .memories-page .card{
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(8px);
@@ -235,26 +240,11 @@ p{
   z-index: 1;
 }
 
-/* Compact header for slideshow pages */
-.memory-page .header{
-  padding: 10px 20px;
-}
-
-.memory-page .header h1{
-  font-size: 1.6rem;
-  margin: 6px 0;
-}
-
-.memory-page .header p{
-  margin: 0;
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
 .love-caption{
   color: #ff69b4;
 }
 
+/* Note box */
 .note{
   padding:16px;
   border-radius: 18px;
@@ -324,6 +314,7 @@ p{
   font-size:14px;
   line-height:1.5;
 }
+
 .footer-actions{
   margin-top: 18px;
   display:flex;
@@ -332,43 +323,71 @@ p{
   justify-content:space-between;
 }
 
-/* Intro layout with image on left */
-.intro-header{
-  display: flex;
-  gap: 18px;
-  align-items: center;
-}
+/* =========================================================
+   MEMORY PAGES (FULLSCREEN, NO SCROLL, CAPTION NOT BLOCKED)
+========================================================= */
 
-.intro-image{
-  width: 90px;
-  height: 90px;
-  border-radius: 20px;
-  overflow: hidden;
-  flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.18);
-}
-
-.intro-image img{
+/* Make memory pages not constrained by the card */
+.memory-page .wrap{
+  max-width: none;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  padding: 0;
+  min-height: 100vh;
 }
 
-/* Full-window memory slideshow */
-.memory-stage{
-  height: calc(100vh - 160px);
+.memory-page .card{
+  width: 100%;
+  max-width: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+
+  /* critical: make this a vertical layout that fits viewport */
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Compact header (actually reduces space) */
+.memory-page .header{
+  flex: 0 0 auto;
+  padding: 10px 16px;
+  margin: 0;
+}
+
+.memory-page .header h1{
+  font-size: 1.5rem;
+  margin: 4px 0;
+}
+
+.memory-page .header p{
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Stage fills remaining space (NOT 100vh) */
+.memory-stage{
+  width: 100%;
+  height: auto;               /* override old 100vh */
   position: relative;
   overflow: hidden;
   background: rgba(0,0,0,0.92);
 }
 
-/* Show the whole image (no cropping) */
+/* For memory pages, take remaining height */
+.memory-page .memory-stage{
+  flex: 1 1 auto;
+  min-height: 0;              /* important inside flex */
+}
+
+/* Show whole image (no crop) */
 .memory-stage img{
   width: 100%;
   height: 100%;
-  object-fit: contain;      /* KEY CHANGE: contain = no crop */
+  object-fit: contain;
   object-position: center;
   display: block;
 }
@@ -391,19 +410,6 @@ p{
   text-shadow: 0 10px 25px rgba(0,0,0,0.6);
 }
 
-/* Overlay controls on top of full-screen image */
-.memory-nav{
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  z-index: 9999;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-}
-
 /* Side arrows for memory slideshow */
 .memory-page #prevPhoto,
 .memory-page #nextPhoto{
@@ -416,30 +422,21 @@ p{
   backdrop-filter: blur(6px);
 }
 
-/* Left / right placement */
-.memory-page #prevPhoto{
-  left: 14px;
-}
+.memory-page #prevPhoto{ left: 14px; }
+.memory-page #nextPhoto{ right: 14px; }
 
-.memory-page #nextPhoto{
-  right: 14px;
-}
-
-/* Keep them subtle */
 .memory-page #prevPhoto.btn-ghost,
 .memory-page #nextPhoto.btn-primary{
   opacity: 0.9;
 }
 
-/* Ensure caption isn't covered by bottom row anymore */
+/* Keep caption clear of side arrows */
 .memory-page .memory-caption{
-  bottom: 18px;
-  left: 16px;
-  right: 16px;
-  padding-right: 70px;  /* avoids overlap with right arrow */
-  padding-left: 70px;   /* avoids overlap with left arrow */
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
+/* Counter chip */
 .memory-counter{
   background: rgba(0,0,0,0.55);
   border: 1px solid rgba(255,255,255,0.18);
@@ -448,31 +445,26 @@ p{
   color: rgba(255,255,255,0.9);
 }
 
+/* Memory nav container (normal flow; side arrows handle prev/next photo) */
+.memory-nav{
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 16px 14px;
+}
+
+/* Hide extra footer on memory pages */
+.memory-page .footer-actions{
+  display: none !important;
+}
+
 .memory-row{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
-}
-
-/* Make memory pages not constrained by the card */
-.memory-page .wrap{
-  max-width: none;
-  width: 100%;
-  padding: 0;
-}
-
-.memory-page .card{
-  width: 100%;
-  max-width: none;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-}
-
-/* On full-screen memory pages, hide the extra footer so controls don't overlap */
-.memory-page .footer-actions{
-  display: none !important;
 }
 
 /* Yes button pulse after max size */
