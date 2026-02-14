@@ -235,6 +235,10 @@ p{
   z-index: 1;
 }
 
+.love-caption{
+  color: #ff69b4;
+}
+
 .note{
   padding:16px;
   border-radius: 18px;
