@@ -236,21 +236,22 @@ p{
   justify-content:space-between;
 }
 
-/* Memory slideshow */
+/* Full-window memory slideshow */
 .memory-stage{
-  height: min(70vh, 560px);
-  border-radius: var(--radius);
-  overflow: hidden;
-  border:1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.06);
+  width: 100vw;
+  height: 100vh;
   position: relative;
+  overflow: hidden;
+  background: rgba(0,0,0,0.92);
 }
 
+/* Show the whole image (no cropping) */
 .memory-stage img{
-  width:100%;
-  height:100%;
-  object-fit: cover;
-  display:block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;      /* KEY CHANGE: contain = no crop */
+  object-position: center;
+  display: block;
 }
 
 .memory-overlay{
@@ -289,6 +290,22 @@ p{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
+}
+
+/* Make memory pages not constrained by the card */
+.memory-page .wrap{
+  max-width: none;
+  width: 100%;
+  padding: 0;
+}
+
+.memory-page .card{
+  width: 100%;
+  max-width: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
 }
 
 /* Yes button pulse after max size */
