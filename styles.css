@@ -203,32 +203,17 @@ p{
    VALENTINE PAGE BACKGROUND
 =========================== */
 .valentine-page{
-  background: url("images/valentines-bg.jpeg") center / cover no-repeat fixed;
-  position: relative;
-}
-
-.valentine-page::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  pointer-events: none;
+  background: url("images/valentines-bg.jpeg") top center / contain no-repeat,
+    linear-gradient(180deg, #140b1f, #1b1230);
 }
 
 /* ===========================
    MEMORIES HOME BACKGROUND
 =========================== */
-.memories-page{
-  background: url("images/memories-bg.jpeg") center / cover no-repeat fixed;
-  position: relative;
-}
 
-.memories-page::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.35);
-  pointer-events: none;
+.memories-page{
+  background: url("images/memories-bg.jpeg") top center / contain no-repeat,
+    linear-gradient(180deg, #140b1f, #1b1230);
 }
 
 .note{
