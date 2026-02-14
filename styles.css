@@ -199,6 +199,23 @@ p{
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 }
 
+/* ===========================
+   VALENTINE PAGE BACKGROUND
+=========================== */
+.valentine-page{
+  background: url("images/valentines-bg.jpeg") top center / contain no-repeat,
+    linear-gradient(180deg, #140b1f, #1b1230);
+}
+
+/* ===========================
+   MEMORIES HOME BACKGROUND
+=========================== */
+
+.memories-page{
+  background: url("images/memories-bg.jpeg") top center / contain no-repeat,
+    linear-gradient(180deg, #140b1f, #1b1230);
+}
+
 .note{
   padding:16px;
   border-radius: 18px;
